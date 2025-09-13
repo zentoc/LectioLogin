@@ -10,9 +10,7 @@ public class Utils {
 
         do {
             try {
-                System.out.println("awaiting url");
                 page.waitForURL(urlToWaitFor);
-                System.out.println("url changed");
                 return true;
             } catch (TimeoutError ignored) {
             }
