@@ -10,7 +10,8 @@ public record LectioSession(
         Playwright playwright,
         Browser browser,
         BrowserContext context,
-        Page page
+        Page page,
+        String schoolId
         ) {
 
     public void close() {
@@ -18,3 +19,5 @@ public record LectioSession(
         playwright.close();
     }
 }
+
+
