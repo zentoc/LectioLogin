@@ -1,4 +1,4 @@
-package dk.zentoc.jackson;
+package dk.zentoc;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;

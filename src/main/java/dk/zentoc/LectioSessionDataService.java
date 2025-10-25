@@ -3,7 +3,7 @@ package dk.zentoc;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import dk.zentoc.jackson.CookieMixin;
+import com.microsoft.playwright.options.Cookie;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -17,8 +17,7 @@ public final class LectioSessionDataService {
     public LectioSessionDataService() {
         this.mapper = new ObjectMapper()
                 .enable(SerializationFeature.INDENT_OUTPUT);
-        // Teach Jackson how to construct Playwright Cookie
-        this.mapper.addMixIn(com.microsoft.playwright.options.Cookie.class, CookieMixin.class);
+        this.mapper.addMixIn(Cookie.class, CookieMixin.class);
         this.writer = mapper.writerFor(LectioSessionData.class);
     }
 

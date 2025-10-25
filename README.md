@@ -61,7 +61,76 @@ Sessionen kan desuden lukkes ved brug af
 lectioSession.close()
 ```
 
+## Gem session
 
+Gemmer de aktuelle cookies samt skole-id, så den kan genbruges senere, gemmes i filen lectio-session.json som standard eller du kan selv vælge pathen.
+
+```
+
+import dk.zentoc.LectioLogin;
+import dk.zentoc.LectioSession;
+import dk.zentoc.LectioSessionDataService;
+
+public class SaveSessionExample {
+    public static void main(String[] args) throws Exception {
+        LectioLogin lectio = new LectioLogin();
+        LectioSession session = lectio.loginLectio("123");
+
+        // Gem til standardfilen `lectio-session.json`
+        new LectioSessionDataService().saveFromSession(session);
+
+        // Gem til en valgfri sti
+        // new LectioSessionDataService().saveFromSession(session, Path.get("path.json")));
+
+        session.close();
+    }
+}
+
+```
+## Indlæs session
+
+Der er to muligheder for at indlæse en tidligere gemt session, selv det for nu kun er muligt at export som en fil, kan den enten indlæses som en fil eller som string.
+```
+
+import dk.zentoc.LectioLogin;
+import dk.zentoc.LectioSession;
+
+import java.nio.file.Paths;
+
+public class LoadFromFileExample {
+    public static void main(String[] args) throws Exception {
+        LectioLogin lectio = new LectioLogin();
+
+        LectioSession session = lectio.lectioSessionFromFile(Paths.get("lectio-session.json"));
+        if (session == null) {
+            // Fallback til manuelt login hvis den ikke kan, SessionRunner.initSession gør dette for dig.
+            session = lectio.loginLectio("123");
+        }
+
+        session.page().navigate("https://lectio.dk/lectio/123/enhverside.aspx");
+    }
+}
+````
+
+### Session runner
+
+
+```
+import dk.zentoc.SessionRunner;
+import dk.zentoc.LectioSession;
+
+public class SessionRunnerExample {
+    public static void main(String[] args) {
+        String json = /* hent JSON fra fil/db */ "{}";
+
+        SessionRunner runner = new SessionRunner();
+        LectioSession session = runner.initSession(json);
+       
+
+        session.page().navigate("https://lectio.dk/lectio/123/enhverside.aspx");
+    }
+}
+```
 ## Licens
 
 MIT License
