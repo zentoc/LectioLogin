@@ -38,6 +38,22 @@ public final class LectioSessionDataService {
         return outputFile;
     }
 
+    public Path saveFromData(LectioSessionData sessionData) throws IOException {
+        return saveFromData(sessionData, Paths.get("lectio-session-data.json"));
+    }
+
+    public Path saveFromData(LectioSessionData sessionData, Path outputFile) throws IOException {
+        if (sessionData == null) throw new IllegalArgumentException("sessionData must not be null");
+
+        Path parent = outputFile.toAbsolutePath().getParent();
+        if (parent != null) {
+            Files.createDirectories(parent);
+        }
+
+        writer.writeValue(outputFile.toFile(), sessionData);
+        return outputFile;
+    }
+
     public LectioSessionData loadFromFile(Path inputFile) throws IOException, IllegalArgumentException {
         if (inputFile == null) throw new IllegalArgumentException("inputFile must not be null");
         return mapper.readValue(inputFile.toFile(), LectioSessionData.class);
